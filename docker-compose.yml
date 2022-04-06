@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - .:/app
+    tty: true
+    depends_on:
+      - api
+
+  api:
+    container_name: app_api
+    build:
+      context: docker/api
+      dockerfile: Dockerfile
+    environment:
+      LANG: 'ja_JP.UTF-8'
+      TZ: 'Asia/Tokyo'
+    # env_file:
+      # - .env
+    volumes:
+      - .:/app
+    expose:
+      - 9000
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      TZ: 'Asia/Tokyo'
+      MYSQL_DATABASE: 'app_db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'root'
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+
+networks:
+  default:
+    name: backend
