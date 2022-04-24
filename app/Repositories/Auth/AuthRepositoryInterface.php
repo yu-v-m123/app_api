@@ -4,5 +4,5 @@ namespace App\Repositories\Auth;
 
 interface AuthRepositoryInterface
 {
-  public function test();
+  public function userRegister(object $request);
 }
