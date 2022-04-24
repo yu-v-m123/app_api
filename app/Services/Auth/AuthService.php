@@ -3,26 +3,30 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+use App\Repositories\Auth\AuthRepositoryInterface;
 
 Class AuthService implements AuthServiceInterface
 {
-  private $user;
-
-  public function __construct(AuthServiceInterface $authServiceInterface)
+  private AuthRepositoryInterface $authRepository;
+  
+  public function __construct(AuthRepositoryInterface $authRepository)
   {
-    $this->$authServiceInterface;
+    $this->authRepository = $authRepository;
   }
 
   // ログイン
-  public function login()
+  public function validation($user)
   {
-    //
+    return $user->validate([
+      'email' => ['required', 'email'],
+      'password' => ['required'],
+    ]);
   }
 
   // 新規登録
   public function register()
   {
-    //
+    
   }
 
   // ログアウト
