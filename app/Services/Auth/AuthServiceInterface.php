@@ -2,16 +2,13 @@
 
 namespace App\Services\Auth;
 
+use App\Models\User;
+
 interface AuthServiceInterface
 {
-  /**
-   * 引数$requestのバリデーションチェックをする
-   * @param object
-   * @return User
-  */
-  public function validation(object $user);
+  public function validation(object $user): array;
 
-  public function register();
+  public function register(object $request);
 
   public function logout();
 }

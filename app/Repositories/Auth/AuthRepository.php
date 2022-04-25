@@ -14,7 +14,13 @@ Class AuthRepository implements AuthRepositoryInterface
     $this->user = $user;
   }
 
-  public function userRegister($request)
+  /**
+   * @param object
+   * @return User
+   * ここに引数の型と、返り値の型を入れる
+   * 「?」はnullでも通るよといいう意味
+   */
+  public function userRegister(object $request): User
   {
     return $this->user->create([
       'name' => $request['name'],

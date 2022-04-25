@@ -14,8 +14,13 @@ Class AuthService implements AuthServiceInterface
     $this->authRepository = $authRepository;
   }
 
-  // ログイン
-  public function validation($user)
+  /**
+   * ログイン
+   * 引数$userのバリデーションチェックをする
+   * @param object
+   * @return User
+  */
+  public function validation($user): array
   {
     return $user->validate([
       'email' => ['required', 'email'],
@@ -23,10 +28,14 @@ Class AuthService implements AuthServiceInterface
     ]);
   }
 
-  // 新規登録
-  public function register()
+  /**
+   * 新規登録
+   * AuthRepositoryに渡す
+   * @param object
+  */
+  public function register(object $request)
   {
-    
+    $this->authRepository->userRegister($request);
   }
 
   // ログアウト

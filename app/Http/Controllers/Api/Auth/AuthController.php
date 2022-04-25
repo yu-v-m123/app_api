@@ -9,20 +9,17 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Services\Auth\AuthService;
-use App\Repositories\Auth\AuthRepository;
 
 class AuthController extends Controller
 {
   private AuthService $authService;
-  private AuthRepository $authRepository;
 
+  // コントローラーには基本Serviceクラスだけ読み込む。Repositoryだけの場合でもServiceクラスを経由する必要がある。
   public function __construct(
-    AuthService $authService,
-    AuthRepository $authRepository
+    AuthService $authService
     )
   {
     $this->authService = $authService;
-    $this->authRepository = $authRepository;
   }
 
   // ログイン
@@ -44,7 +41,7 @@ class AuthController extends Controller
   // 新規登録
   public function register(UserRequest $request): JsonResponse
   {
-    $this->authRepository->userRegister($request);
+    $this->authService->register($request);
     return response()->json(['message' => '登録しました'] , Response::HTTP_OK);
   }
 
